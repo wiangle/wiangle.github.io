@@ -1,0 +1,334 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiangle Studio</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #7f8c8d;
+            --text-color: #333;
+            --light-text-color: #ffffff;
+            --separator-color: #cccccc;
+            --background-color: #f5f5f5;
+            --box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            --card-background: #f8f9fa;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Microsoft YaHei', '微软雅黑', Arial, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .navbar {
+            background-color: var(--primary-color);
+            padding: 15px 30px;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--box-shadow);
+        }
+        .nav-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .logo {
+            width: 120px;
+            height: auto;
+        }
+        .nav-separator {
+            width: 1px;
+            height: 24px;
+            background-color: rgba(255,255,255,0.3);
+        }
+        .btn {
+            color: var(--light-text-color);
+            background: none;
+            border: none;
+            padding: 8px 16px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .btn:hover {
+            background-color: rgba(255,255,255,0.1);
+            border-radius: 4px;
+        }
+        .main-container {
+            max-width: 1200px;
+            margin: 100px auto 40px;
+            padding: 0 30px;
+            flex-grow: 1;
+        }
+        .content {
+            display: flex;
+            gap: 40px;
+        }
+        .left-column {
+            flex: 1;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+        .right-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .projects, .join-us {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: var(--box-shadow);
+        }
+        .projects-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin: 0;
+            padding: 0;
+        }
+        .project-card {
+            background-color: var(--card-background);
+            border-radius: 6px;
+            padding: 15px 20px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+            list-style: none;
+            margin: 0;
+            cursor: pointer;
+        }
+        .project-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        h2 {
+            color: var(--primary-color);
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        p {
+            margin-bottom: 15px;
+            font-size: 15px;
+            line-height: 1.8;
+        }
+        footer {
+            background-color: var(--secondary-color);
+            color: var(--light-text-color);
+            padding: 20px;
+            text-align: center;
+            font-size: 13px;
+            margin-top: auto;
+        }
+        footer p {
+            margin: 5px 0;
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 1em;
+            background-color: var(--primary-color);
+            margin-left: 2px;
+            animation: blink 0.7s infinite;
+            vertical-align: middle;
+        }
+        .cursor.hidden {
+            display: none;
+        }
+        @media (max-width: 768px) {
+            .content {
+                flex-direction: column;
+            }
+            .navbar {
+                padding: 10px 15px;
+            }
+            .main-container {
+                padding: 0 15px;
+                margin-top: 80px;
+            }
+            .project-card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="navbar-left">
+                <a href="index.html">
+                    <img src="WiangleStudiologo.png" alt="Wiangle工作室 Logo" class="logo">
+                </a>
+                <div class="nav-separator"></div>
+                <a href="WiangleMinecraftLauncher.html" class="btn" id="launcher-link">
+                    Wiangle Minecraft Launcher
+                </a>
+            </div>
+            <div class="navbar-right">
+                <button class="btn" onclick="toggleLanguage()">中/A</button>
+            </div>
+        </div>
+    </nav>
+    <main class="main-container">
+        <div class="content">
+            <div class="left-column">
+                <div id="description"></div>
+            </div>
+            <div class="right-column">
+                <div class="projects">
+                    <h2 id="projects-title"></h2>
+                    <ul id="projects-list" class="projects-list"></ul>
+                </div>
+                <div class="join-us">
+                    <h2 id="join-us-title"></h2>
+                    <p id="join-us-text"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+    <footer>
+        <p>如需留言，请联系：wiangle_studio@outlook.com ---- If you need to leave a message, please contact: wiangle_studio@outlook.com</p>
+        <p>Wiangle Studio 保留所有权利 ---- All rights reserved by Wiangle Studio</p>
+    </footer>
+    <script>
+        let isEnglish = false;
+        let isUpdating = false; // 添加一个标志来跟踪更新状态
+    
+        function toggleLanguage() {
+            if (isUpdating) return; // 如果正在更新，则不执行切换
+            isEnglish = !isEnglish;
+            updateContent();
+        }
+    
+        function updateContent() {
+            isUpdating = true; // 开始更新时设置标志
+            const elements = {
+                description: document.getElementById('description'),
+                projectsTitle: document.getElementById('projects-title'),
+                projectsList: document.getElementById('projects-list'),
+                joinUsTitle: document.getElementById('join-us-title'),
+                joinUsText: document.getElementById('join-us-text'),
+                launcherLink: document.getElementById('launcher-link')
+            };
+            const content = {
+                zh: {
+                    intro: [
+                        "欢迎来到Wiangle工作室",
+                        "Wiangle工作室是一个充满激情和创造力的软件开发团队，专注于为Minecraft玩家提供优质的游戏体验。",
+                        "我们的团队由经验丰富的开发者、设计师和Minecraft爱好者组成，致力于为Minecraft社区贡献我们的力量。"
+                    ],
+                    projects: [
+                        "主要项目",
+                        "Wiangle Minecraft Launcher",
+                        "敬请期待......"
+                    ],
+                    joinUs: [
+                        "加入我们",
+                        "我们始终在寻找有才华的个人加入我们的团队。如果您对Minecraft和软件开发充满热情，我们很乐意听到您的声音！"
+                    ]
+                },
+                en: {
+                    intro: [
+                        "Welcome to Wiangle Studio",
+                        "Wiangle Studio is a passionate and creative software development team focused on providing high-quality gaming experiences for Minecraft players.",
+                        "Our team consists of experienced developers, designers, and Minecraft enthusiasts dedicated to contributing to the Minecraft community."
+                    ],
+                    projects: [
+                        "Our Main Projects",
+                        "Wiangle Minecraft Launcher",
+                        "Coming Soon..."
+                    ],
+                    joinUs: [
+                        "Join Us",
+                        "We are always looking for talented individuals to join our team. If you are passionate about Minecraft and software development, we'd love to hear from you!"
+                    ]
+                }
+            };
+            const currentContent = isEnglish ? content.en : content.zh;
+            Object.values(elements).forEach(el => {
+                if (el && el !== elements.launcherLink) el.innerHTML = '';
+            });
+            Promise.all([
+                new Promise(resolve => {
+                    typeWriter(currentContent.intro, elements.description, 0, 0, resolve);
+                }),
+                new Promise(resolve => {
+                    typeWriter([currentContent.projects[0]], elements.projectsTitle, 0, 0, () => {
+                        typeWriter(currentContent.projects.slice(1), elements.projectsList, 0, 0, resolve);
+                    });
+                }),
+                new Promise(resolve => {
+                    typeWriter([currentContent.joinUs[0]], elements.joinUsTitle, 0, 0, () => {
+                        typeWriter([currentContent.joinUs[1]], elements.joinUsText, 0, 0, resolve);
+                    });
+                })
+            ]).then(() => {
+                isUpdating = false; // 更新完成后重置标志
+            });
+            elements.launcherLink.textContent = 'Wiangle Minecraft Launcher';
+        }
+    
+        function typeWriter(contentArray, element, paragraphIndex = 0, charIndex = 0, callback) {
+            if (paragraphIndex < contentArray.length) {
+                if (charIndex === 0) {
+                    if (element.tagName === 'UL') {
+                        element.innerHTML += '<li class="project-card"></li>';
+                    } else if (paragraphIndex === 0 && element.id === 'description') {
+                        element.innerHTML += '<h2></h2>';
+                    } else {
+                        element.innerHTML += '<p></p>';
+                    }
+                    let currentElement = element.lastElementChild;
+                    currentElement.innerHTML += '<span class="cursor"></span>';
+                }
+                let currentElement = element.lastElementChild;
+                
+                if (charIndex < contentArray[paragraphIndex].length) {
+                    currentElement.insertBefore(
+                        document.createTextNode(contentArray[paragraphIndex].charAt(charIndex)),
+                        currentElement.lastElementChild
+                    );
+                    charIndex++;
+                    setTimeout(() => typeWriter(contentArray, element, paragraphIndex, charIndex, callback), 
+                        Math.random() * 30 + 20);
+                } else {
+                    currentElement.lastElementChild.classList.add('hidden');
+                    paragraphIndex++;
+                    setTimeout(() => typeWriter(contentArray, element, paragraphIndex, 0, callback), 200);
+                }
+            } else {
+                if (callback) callback();
+            }
+        }
+    
+        window.addEventListener('load', updateContent);
+    </script>
+</body>
+</html>

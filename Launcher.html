@@ -1,0 +1,248 @@
+﻿<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wiangle Minecraft Launcher</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            background-color: #f9f9f9;
+            min-height: 100vh;
+        }
+        .container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .logo {
+            width: 150px;
+            position: relative;
+            opacity: 0;
+            animation: logoMove 1s forwards;
+            margin-bottom: 20px;
+        }
+        @keyframes logoMove {
+            0% { bottom: -200px; opacity: 0; }
+            50% { bottom: 0; opacity: 1; }
+            100% { bottom: 0; opacity: 1; }
+        }
+        .fade-in {
+            opacity: 0;
+            animation: fadeIn 0.5s ease-in forwards;
+            animation-delay: 0.5s;
+        }
+        @keyframes fadeIn {
+            to { opacity: 1; }
+        }
+        .text-box-container {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+            animation-delay: 1s;
+            margin-bottom: 20px;
+        }
+        .text-box {
+            opacity: 0;
+            width: 250px;
+            margin: 10px;
+            padding: 15px;
+            background-color: #f1f1f1;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, opacity 0.5s ease;
+            animation: textBoxEnter 0.5s ease forwards;
+        }
+        .text-box:nth-child(1) {
+            animation-delay: 1.1s;
+        }
+        .text-box:nth-child(2) {
+            animation-delay: 1.2s;
+        }
+        .text-box:nth-child(3) {
+            animation-delay: 1.3s;
+        }
+        .text-box:nth-child(4) {
+            animation-delay: 1.4s;
+        }
+        .text-box:hover {
+            transform: translateY(-5px);
+        }
+        @keyframes textBoxEnter {
+            0% { opacity: 0; transform: scale(0.5) translateY(100px); }
+            50% { opacity: 0.5; transform: scale(1.05) translateY(-20px); }
+            100% { opacity: 1; transform: scale(1) translateY(0); }
+        }
+        .language-switch {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            opacity: 0;
+            animation: buttonEnter 1s forwards;
+            animation-delay: 1.5s;
+        }
+        .button {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: bold;
+            color: black;
+            background-color: white;
+            border-radius: 30px;
+            text-decoration: none;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            transition: box-shadow 0.3s ease, background-color 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            animation: buttonEnter 1s forwards;
+        }
+        .button:hover {
+            background-color: #f0f0f0;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+        }
+        @keyframes buttonEnter {
+            0% { opacity: 0; transform: translateY(30px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+        .download-btn {
+            margin-top: 20px;
+            opacity: 0;
+            animation: buttonEnter 1s forwards;
+            animation-delay: 1.6s;
+        }
+    </style>
+    <script>
+        const texts = {
+            zh: {
+                title: "Wiangle Minecraft启动器",
+                description: "Wiangle Minecraft启动器是一款功能强大，用户友好的Minecraft启动器，为玩家提供最佳的游戏体验。",
+                boxes: [
+                    "直观易用的界面设计，让您轻松管理游戏版本和模组。",
+                    "支持多个Minecraft版本和模组加载器，满足不同玩家的需求。",
+                    "内置模组管理系统，轻松安装、更新和管理您喜爱的模组。",
+                    "提供游戏性能优化选项，让您的Minecraft运行更加流畅。"
+                ],
+                downloadBtn: "下载Wiangle Minecraft启动器"
+            },
+            en: {
+                title: "Wiangle Minecraft Launcher",
+                description: "Wiangle Minecraft Launcher is a powerful, user-friendly launcher, offering players the best Minecraft experience.",
+                boxes: [
+                    "Intuitive interface design allows you to easily manage game versions and mods.",
+                    "Supports multiple Minecraft versions and mod loaders to meet the needs of different players.",
+                    "Built-in mod management system allows you to easily install, update and manage your favorite mods.",
+                    "Provides performance optimization options for smoother Minecraft gameplay."
+                ],
+                downloadBtn: "Download Wiangle Minecraft Launcher"
+            }
+        };
+
+        let currentLang = "zh";
+
+        function switchLanguage() {
+            const newLang = currentLang === "zh" ? "en" : "zh";
+            fadeOutContent(() => {
+                currentLang = newLang;
+                document.documentElement.lang = currentLang;
+                updateContent();
+                fadeInContent();
+            });
+        }
+
+        function fadeOutContent(callback) {
+            const elements = [
+                document.getElementById("title"),
+                document.getElementById("description"),
+                ...document.querySelectorAll(".text-box"),
+                document.getElementById("download-btn-text")
+            ];
+
+            elements.forEach(el => {
+                el.style.transition = "opacity 0.5s ease";
+                el.style.opacity = "0";
+            });
+
+            setTimeout(callback, 500);
+        }
+
+        function fadeInContent() {
+            const elements = [
+                document.getElementById("title"),
+                document.getElementById("description"),
+                ...document.querySelectorAll(".text-box"),
+                document.getElementById("download-btn-text")
+            ];
+
+            elements.forEach((el, index) => {
+                setTimeout(() => {
+                    el.style.transition = "opacity 0.5s ease";
+                    el.style.opacity = "1";
+                    if (el.classList.contains("text-box")) {
+                        typeWriter(el, texts[currentLang].boxes[index - 2], 0);
+                    }
+                }, index * 100);
+            });
+        }
+
+        function updateContent() {
+            document.getElementById("title").innerText = texts[currentLang].title;
+            document.getElementById("description").innerText = texts[currentLang].description;
+            document.getElementById("download-btn-text").innerText = texts[currentLang].downloadBtn;
+
+            document.querySelectorAll(".text-box").forEach(box => {
+                box.innerHTML = "";
+            });
+        }
+
+        function typeWriter(element, text, index) {
+            if (index < text.length) {
+                element.innerHTML = text.substring(0, index + 1) + "⚫";
+                setTimeout(() => typeWriter(element, text, index + 1), currentLang === "zh" ? 40 : 15);
+            } else {
+                element.innerHTML = text; // Remove underscore when typing is complete
+            }
+        }
+
+        window.onload = function() {
+            setTimeout(() => {
+                document.querySelectorAll(".text-box").forEach((box, index) => {
+                    typeWriter(box, texts[currentLang].boxes[index], 0);
+                });
+            }, 1500);
+        };
+    </script>
+</head>
+<body>
+
+    <div class="language-switch">
+        <a class="button" onclick="switchLanguage()">切换语言 / Switch Language</a>
+    </div>
+
+    <div class="container">
+        <img src="WiangleStudiologo.png" alt="WiangleStudioLogo" class="logo">
+        <div class="fade-in">
+            <h1 id="title">Wiangle Minecraft启动器</h1>
+            <p id="description">Wiangle Minecraft启动器是一款功能强大，用户友好的Minecraft启动器，为玩家提供最佳的游戏体验。</p>
+        </div>
+        <div class="text-box-container">
+            <div class="text-box" id="box1"></div>
+            <div class="text-box" id="box2"></div>
+            <div class="text-box" id="box3"></div>
+            <div class="text-box" id="box4"></div>
+        </div>
+    </div>
+
+    <div class="download-btn">
+        <a class="button" id="download-btn-text">下载Wiangle Minecraft启动器</a>
+    </div>
+
+</body>
+</html>
